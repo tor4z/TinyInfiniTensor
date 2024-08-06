@@ -117,10 +117,9 @@ namespace infini
         }
 
         IT_ASSERT(topo_sort() == true);
-        bool optimized_this_round{false};
-        std::cout << "num ops: " << ops.size() << ", num tensors: " << tensors.size() << "\n";
+        bool optimized_this_pass{false};
         while (true) {
-            optimized_this_round = false;
+            optimized_this_pass = false;
             auto& op{ops.at(0)};
             // rule 1, 2
             if (op->type == OpType::Transpose) {
@@ -180,7 +179,7 @@ namespace infini
                                     ++it;
                                 }
                             }
-                            optimized_this_round = true;
+                            optimized_this_pass = true;
                         }
                     } else if (succ_ptr->type == OpType::MatMul) {
                         // rule 2
@@ -214,13 +213,13 @@ namespace infini
                                     ++it;
                                 }
                             }
-                            optimized_this_round = true;
+                            optimized_this_pass = true;
                         }
                     }
                 }
             }
 
-            if(!optimized_this_round) {
+            if(!optimized_this_pass) {
                 break;
             }
         }

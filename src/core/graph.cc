@@ -155,9 +155,15 @@ namespace infini
         // =================================== 作业 ===================================
         size_t size{0};
         for (auto tensor: tensors) {
-            size = allocator.alloc(tensor->getBytes());
+            size += tensor->getBytes();
+        }
+
+        allocator.alloc(size);
+        size_t offset{0};
+        for (auto tensor: tensors) {
             tensor->setDataBlob(make_ref<BlobObj>(runtime,
-                reinterpret_cast<void*>(reinterpret_cast<char*>(allocator.getPtr()) + size)));
+                reinterpret_cast<void*>(reinterpret_cast<char*>(allocator.getPtr()) + offset)));
+            offset += tensor->getBytes();
         }
 
         allocator.info();

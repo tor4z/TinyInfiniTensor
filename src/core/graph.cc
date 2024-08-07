@@ -118,9 +118,9 @@ namespace infini
 
         IT_ASSERT(topo_sort() == true);
         bool optimized_this_pass{false};
-        while (true) {
+        for (size_t i = 0; i < ops.size();) {
             optimized_this_pass = false;
-            auto& op{ops.at(0)};
+            auto& op{ops.at(i)};
             // rule 1, 2
             if (op->type == OpType::Transpose) {
                 const auto& perm{as<TransposeObj>(op)->getPermute()};
@@ -179,6 +179,8 @@ namespace infini
                                     ++it;
                                 }
                             }
+                            // The graph structure has been changed, we optimize from begining
+                            i = 0;
                             optimized_this_pass = true;
                         }
                     } else if (succ_ptr->type == OpType::MatMul) {
@@ -213,6 +215,8 @@ namespace infini
                                     ++it;
                                 }
                             }
+                            // The graph structure has been changed, we optimize from begining
+                            i = 0;
                             optimized_this_pass = true;
                         }
                     }
@@ -220,7 +224,7 @@ namespace infini
             }
 
             if(!optimized_this_pass) {
-                break;
+                ++i;
             }
         }
 

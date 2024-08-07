@@ -179,7 +179,7 @@ namespace infini
                                     ++it;
                                 }
                             }
-                            // The graph structure has been changed, we optimize from begining
+                            // The graph structure has been modified, we optimize from the begining
                             i = 0;
                             optimized_this_pass = true;
                         }
@@ -215,7 +215,7 @@ namespace infini
                                     ++it;
                                 }
                             }
-                            // The graph structure has been changed, we optimize from begining
+                            // The graph structure has been modified, we optimize from the begining
                             i = 0;
                             optimized_this_pass = true;
                         }
